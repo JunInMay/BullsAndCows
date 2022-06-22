@@ -1,18 +1,25 @@
 package logic;
 
 class GameData {
-	private String answer;
+	private int[] answer;
 	private int balls = 0;
 	private int strikes = 0;
+	private int guessLength = 4; // 추측할 길이
 	
 	public GameData(){
 		this.balls = 0;
 		this.strikes = 0;
 	}
-	public String getAnswer() {
+	public int getGuessLength() {
+		return guessLength;
+	}
+	public void setGuessLength(int length) {
+		this.guessLength = length;
+	}
+	public int[] getAnswer() {
 		return answer;
 	}
-	public void setAnswer(String answer) {
+	public void setAnswer(int[] answer) {
 		this.answer = answer;
 	}
 	public int getBalls() {
@@ -27,4 +34,5 @@ class GameData {
 	public int getStrikes() {
 		return strikes;
 	}
+	
 }
