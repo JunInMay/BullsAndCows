@@ -9,12 +9,13 @@ public class Play{
 	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	private String inputText;
 	private int guessTimes = 0;
+	private boolean havingError = false;
 	
 	public Play(){
 		answer = new Answer();
 	}
-	public Play(int answer){
-		int[] answerArray = ToolBox.intToArrayInt(answer);
+	public Play(String answer){
+		int[] answerArray = ToolBox.stringToArrayInt(answer);
 		this.answer = new Answer(answerArray);
 	}
 	
@@ -36,15 +37,21 @@ public class Play{
 	}
 	
 	public void guess() {
-		if (guessTimes == 0) {
+		if (guessTimes == 0 && !havingError) {
 			gameStart();
 		}
-		getInput();
-		printLog();
-		if (isComplete()) {
-			gameComplete();
-		} else {
-			repeatAgain();
+		try {
+			getInput();
+			havingError = false;
+			printLog();
+			if (isComplete()) {
+				gameComplete();
+			} else {
+				repeatAgain();
+			}
+		} catch (NumberFormatException e){
+			integerInputError();
+			havingError = true;
 		}
 	}
 	
@@ -52,11 +59,13 @@ public class Play{
 	 * 입력값에 따른 로그 출력
 	 */
 	public void printLog() {
-		System.out.println("Input : " + ToolBox.intArrayToString(ToolBox.intToArrayInt(Integer.parseInt(inputText))));
+		System.out.println("Input : " + ToolBox.intArrayToString(ToolBox.stringToArrayInt(inputText)));
 		System.out.println("Balls : " + answer.getBalls() + ", Strikes : " + answer.getStrikes() + ", Length : " + answer.getGuessLength());
 		System.out.println("answer : " + ToolBox.intArrayToString(answer.getAnswer()));
 	}
-	
+	public void integerInputError() {
+		System.out.println("0~9까지의 정수를 입력해주세요.");
+	}
 	public boolean isComplete() {
 		return answer.getStrikes() == answer.getGuessLength();
 	}

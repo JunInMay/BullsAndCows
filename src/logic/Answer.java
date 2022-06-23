@@ -9,9 +9,9 @@ public class Answer extends GameData{
 		super();
 		setAnswer(answer);
 	}
-	public Answer(int answer) {
+	public Answer(String answer) {
 		super();
-		setAnswer(ToolBox.intToArrayInt(answer));
+		setAnswer(ToolBox.stringToArrayInt(answer));
 	}
 	/*
 	 * TODO 인자가 없다면, 랜덤으로 정답 생성 기능 진행
@@ -26,31 +26,33 @@ public class Answer extends GameData{
 	 * TODO 랜덤으로 정답 생성 기능
 	 */
 	public void generateRandomAnswer() {
-		setAnswer(ToolBox.intToArrayInt(1234));
-		ArrayList<Integer> tempArray = new ArrayList<Integer>();
+		setAnswer(ToolBox.stringToArrayInt("1234"));
+		ArrayList<Integer> tempArrayList = new ArrayList<Integer>();
 		Random rand = new Random(System.currentTimeMillis());
-		int iteratedCount = 0;
-		while (tempArray.size() < getGuessLength()) {
+		while (tempArrayList.size() < getGuessLength()) {
 			int randomElement = rand.nextInt(10);
 			boolean isExist = false;
-			for (int i = 0; i < tempArray.size(); i++) {
-				if (randomElement == tempArray.get(i)) {
+			for (int i = 0; i < tempArrayList.size(); i++) {
+				if (randomElement == tempArrayList.get(i)) {
 					isExist = true;
 					break;
 				}
 			}
 			if (!isExist) {
-				tempArray.add(randomElement);
-			}
-			iteratedCount ++;
-			
+				tempArrayList.add(randomElement);
+			}	
 		}
-		System.out.println("asdf");
-		System.out.println(tempArray);
-		System.out.println(iteratedCount);
-		tempArray.toArray();
-		setAnswer(tempArray.toArray());
+		int[] tempArray = new int[getGuessLength()];
 		
+		int index = 0;
+		for (Integer number : tempArrayList) {
+			tempArray[index++] = number;
+		}
+
+		System.out.println("asdf");
+		System.out.println(tempArrayList);
+		tempArrayList.toArray();
+		setAnswer(tempArray);
 		
 	}
 	
@@ -58,7 +60,7 @@ public class Answer extends GameData{
 	 * 들어온 텍스트와 정답이 일치하는지 확인하는 메소드
 	 */
 	public void checkAnswer(String inputText) {
-		int[] splittedInput = ToolBox.intToArrayInt(Integer.parseInt(inputText));
+		int[] splittedInput = ToolBox.stringToArrayInt(inputText);
 		int[] splittedAnswer = getAnswer();
 		int balls = 0;
 		int strikes = 0;

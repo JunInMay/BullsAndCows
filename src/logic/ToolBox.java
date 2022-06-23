@@ -4,11 +4,11 @@ public class ToolBox {
 	/*
 	 * 정수를 정수 배열로 만들기
 	 */
-	public static int[] intToArrayInt(int number) {
-		String tempString = Integer.toString(number);
-		int[] intArray = new int[tempString.length()];
-		for (int i = 0; i < tempString.length(); i++) {
-			intArray[i] = Integer.parseInt(Character.toString(tempString.charAt(i)));
+	public static int[] stringToArrayInt(String text) throws NumberFormatException{
+		String[] tempStringArray = text.split("");
+		int[] intArray = new int[tempStringArray.length];
+		for (int i = 0; i < tempStringArray.length; i++) {
+			intArray[i] = Integer.parseInt(tempStringArray[i]);
 		}
 		return intArray;
 	}
