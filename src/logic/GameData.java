@@ -7,8 +7,7 @@ class GameData {
 	private int guessLength = 4; // 추측할 길이
 	
 	public GameData(){
-		this.balls = 0;
-		this.strikes = 0;
+		initialize();
 	}
 	public int getGuessLength() {
 		return guessLength;
@@ -33,6 +32,10 @@ class GameData {
 	}
 	public int getStrikes() {
 		return strikes;
+	}
+	public void initialize() {
+		this.balls = 0;
+		this.strikes = 0;
 	}
 	
 }

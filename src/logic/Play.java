@@ -4,23 +4,20 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import customException.DeficientInputLengthException;
+
 public class Play{
 	private Answer answer;
 	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	private String inputText;
 	private int guessTimes = 0;
 	private boolean havingError = false;
+	private boolean stageStarted = false;
+	private boolean menuSelected = false;
+	private TextPrinter tp = new TextPrinter();
+	private MenuOption mo;
 	
 	public Play(){
-		answer = new Answer();
-	}
-	public Play(String answer){
-		int[] answerArray = ToolBox.stringToArrayInt(answer);
-		this.answer = new Answer(answerArray);
-	}
-	
-	public void reset() {
-		this.answer = new Answer();
 	}
 	
 	/*
@@ -33,26 +30,40 @@ public class Play{
 			e.printStackTrace();
 			inputText = null;
 		}
-		this.answer.checkAnswer(inputText);
 	}
 	
-	public void guess() {
-		if (guessTimes == 0 && !havingError) {
-			gameStart();
+	public void stageStart() {
+		tp.printStageStart();
+		answer = new Answer();
+		stageStarted = true;
+	}
+	
+	public void stageEnd() {
+		
+	}
+	
+	public void run() {
+		havingError = false;
+		if (!stageStarted) {
+			stageStart();
 		}
-		try {
-			getInput();
-			havingError = false;
-			printLog();
-			if (isComplete()) {
-				gameComplete();
-			} else {
-				repeatAgain();
-			}
-		} catch (NumberFormatException e){
-			integerInputError();
-			havingError = true;
+		getInput();
+		validateStageInput();
+		answer.checkAnswer(inputText);
+		printLog();
+		if (isComplete()) {
+			tp.printGameComplete();
+			stageStarted = false;
+		} else {
+			tp.printRepeatAgain();
 		}
+	}
+	
+	/*
+	 * 처음에 메뉴를 주고, 메뉴에서 동작 선택
+	 */
+	public void menuFlow() {
+		mo = mo.Stage;
 	}
 	
 	/*
@@ -63,23 +74,25 @@ public class Play{
 		System.out.println("Balls : " + answer.getBalls() + ", Strikes : " + answer.getStrikes() + ", Length : " + answer.getGuessLength());
 		System.out.println("answer : " + ToolBox.intArrayToString(answer.getAnswer()));
 	}
-	public void integerInputError() {
-		System.out.println("0~9까지의 정수를 입력해주세요.");
-	}
+	
 	public boolean isComplete() {
 		return answer.getStrikes() == answer.getGuessLength();
 	}
 	
-	public void gameStart() {
-		System.out.println("게임이 시작됐습니다. 답을 맞춰보세요.");
+	public void validateStageInput() {
+		try {
+			Validator.integerCheck(inputText);
+			Validator.lengthCheck(inputText, answer.getGuessLength());
+		} catch (NumberFormatException e){
+			tp.printIntegerInputError();
+			havingError = true;
+		} catch (DeficientInputLengthException e) {
+			tp.printDeficientGuessNumberLength(answer.getGuessLength());
+			havingError = true;
+		}
 	}
+}
 
-	public void gameComplete() {
-		System.out.println("정답을 맞췄습니다. \n게임이 종료됐습니다.");
-	}
-	
-	public void repeatAgain() {
-		System.out.println("다시 입력해주세요.");
-	}
-
+enum MenuOption{
+	Stage, Exit
 }
