@@ -1,6 +1,12 @@
 package logic;
 
-public class TextPrinter {
+public class ConsolePrinter {
+	public static void printWelcome() {
+		System.out.println("┌────────────────────┐\n"
+						 + "│   Bulls And Cows   │\n"
+						 + "│       Welcome      │\n"
+						 + "└────────────────────┘\n");
+	}
 	public static void printMenu() {
 		System.out.println("게임이 시작됐습니다. 동작을 선택하세요.\n1. 게임 시작 2. 게임 종료");
 	}

@@ -9,7 +9,7 @@ public class Answer extends GameData{
 		setAnswer(answer);
 	}
 	public Answer(String answer) {
-		setAnswer(ToolBox.stringToArrayInt(answer));
+		this(ToolBox.stringToArrayInt(answer));
 	}
 	public Answer() {
 		setAnswer(generateRandomAnswer());
@@ -47,8 +47,12 @@ public class Answer extends GameData{
 		return tempArray;		
 	}
 	
+	public boolean isComplete() {
+		return getStrikes() == getGuessLength();
+	}
+	
 	/*
-	 * 들어온 텍스트와 정답이 일치하는지 확인하는 메소드
+	 * 들어온 텍스트와 정답이 일치하는지 확인
 	 */
 	public void checkAnswer(String inputText) {
 		int[] splittedInput = ToolBox.stringToArrayInt(inputText);

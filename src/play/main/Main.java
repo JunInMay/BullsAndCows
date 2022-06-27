@@ -1,7 +1,6 @@
 package play.main;
 
-import logic.Answer;
-import logic.Play;
+import logic.PlayConsole;
 
 /*
  * TODO List
@@ -15,10 +14,8 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		Play game = new Play();
-		while (true) {
-			game.run();
-		}
+		PlayConsole game = new PlayConsole();
+		game.run();
 		
 		
 	}
