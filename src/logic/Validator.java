@@ -19,4 +19,12 @@ public class Validator {
 			}
 		}
 	}
+	
+	/*
+	 * 추측할 때 입력값 처리
+	 */
+	public void validateStageInput(String inputText, int length) throws IntegerInputException, DeficientInputLengthException {
+		Validator.integerCheck(inputText);
+		Validator.lengthCheck(inputText, length);
+	}
 }
