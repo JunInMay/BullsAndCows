@@ -1,17 +1,18 @@
 package logic;
 
+import java.util.Arrays;
+
 import customException.DeficientInputLengthException;
 import customException.IntegerInputException;
 
-public class Play{
+public class Play extends GameData{
 	private Answer answer;
-	private String inputText;
 	private int guessTimes = 0;
 	private boolean havingError = false;
 	private boolean stageStarted = false;
 	private boolean menuSelected = false;
 	
-	private MenuOption mo;
+	private ConsoleMenuOption mo;
 	
 	public Play(){
 	}
@@ -21,32 +22,34 @@ public class Play{
 	}
 	
 	public void setInputText(String inputText) {
-		this.inputText = inputText;
 	}
 	
 	public void stageStart() {
 //		tp.printStageStart();
-		answer = new Answer();
-		stageStarted = true;
+		answer = new Answer(getGuessLength());
+//		stageStarted = true;
 	}
 	
 	public void stageEnd() {
 		
 	}
 	
-	public void guess() {
-		if (!stageStarted) {
-			stageStart();
-		}
+	/*
+	 * 입력 값을 받아서 답이 맞는지, 아닌지 출력
+	 */
+	public boolean guess(String inputText) {
+//		if (!stageStarted) {
+//			stageStart();
+//		}
 //		validateStageInput();
-		answer.checkAnswer(inputText);
-		printLog();
-		if (answer.isComplete()) {
-//			tp.printGameComplete();
-			stageStarted = false;
-		} else {
-//			tp.printRepeatAgain();
-		}
+		checkAnswer(inputText);
+		return isComplete();
+//		if (isComplete()) {
+////			tp.printGameComplete();
+//			stageStarted = false;
+//		} else {
+////			tp.printRepeatAgain();
+//		}
 	}
 	
 	/*
@@ -59,20 +62,47 @@ public class Play{
 	/*
 	 * 입력값에 따른 로그 출력
 	 */
-	public void printLog() {
-		System.out.println("Input : " + ToolBox.intArrayToString(ToolBox.stringToArrayInt(inputText)));
-		System.out.println("Balls : " + answer.getBalls() + ", Strikes : " + answer.getStrikes() + ", Length : " + answer.getGuessLength());
-		System.out.println("answer : " + ToolBox.intArrayToString(answer.getAnswer()));
-	}
+	
 	
 	
 	
 	/*
-	 * 추측할 때 입력값 처리
+	 * 정답 확인
 	 */
-	public void validateStageInput() throws IntegerInputException, DeficientInputLengthException {
-		Validator.integerCheck(inputText);
-		Validator.lengthCheck(inputText, answer.getGuessLength());
+	public boolean isComplete() {
+		return getStrikes() == getGuessLength();
+	}
+	
+	/*
+	 * 들어온 텍스트와 정답이 일치하는지 확인
+	 */
+	public void checkAnswer(String inputText) {
+		int[] splittedInput = ToolBox.stringToArrayInt(inputText);
+		int[] splittedAnswer = answer.getAnswer();
+		System.out.println(inputText + " 여ㅛ기요 " + Arrays.toString(splittedAnswer));
+		int balls = 0;
+		int strikes = 0;
+		
+		boolean hasBreak = false;
+		for (int i = 0; i < getGuessLength(); i++) {
+			for (int j = 0; j < getGuessLength(); j++) {
+				if (splittedInput[j] == splittedAnswer[i]) {
+					hasBreak = true;
+					if (i == j) {
+						strikes++;
+						break;
+					}
+					balls++;
+					break;
+				}
+			}
+			if (hasBreak) {
+				break;
+			}
+		}
+		setBalls(balls);
+		setStrikes(strikes);
+		System.out.println(balls + " " + strikes);
 	}
 
 }

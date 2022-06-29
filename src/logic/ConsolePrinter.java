@@ -29,6 +29,9 @@ public class ConsolePrinter {
 	public static void printDeficientGuessNumberLength(int guessLength) {
 		System.out.println(String.format("정수를 %d개 입력해주세요.", guessLength));
 	}
+	public static void printStageInput(int guessLength) {
+		System.out.println(String.format("0~9까지의 정수를 %d개 입력해주세요.", guessLength));
+	}
 }
 
 /*

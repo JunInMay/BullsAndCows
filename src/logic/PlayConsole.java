@@ -3,13 +3,19 @@ package logic;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class PlayConsole {
-	private Play play = new Play();
-	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	private Play play;
+	private BufferedReader br;
 	private String inputText;
-	private MenuOption mo;
+	private ConsoleMenuOption mo;
 	private ConsoleFlow flow = ConsoleFlow.INITIAL_START;
+	
+	public PlayConsole() {
+		this.play = new Play();
+		this.br = new BufferedReader(new InputStreamReader(System.in)); 
+	}
 	
 	public void run(){
 		while (flow != ConsoleFlow.GAME_END) {
@@ -33,17 +39,39 @@ public class PlayConsole {
 					break;
 				case STAGE_START:
 					stageStart();
+					flow = ConsoleFlow.STAGE_INPUT;
 					break;
+				case STAGE_INPUT:
+					System.out.println(Arrays.toString(play.getAnswer().getAnswer()));
+					System.out.println("STAGEINPUT CHECKÁß " + "Balls : " + play.getBalls() + ", Strikes : " + play.getStrikes() + ", Length : " + play.getGuessLength());
+					if (stageInput()) {
+						flow = ConsoleFlow.STAGE_COMPLETE;
+						break;
+					} else {
+						System.out.println("Æ²¸²" + flow.name());
+						break;
+					}
 				
 			}
 		}
 	}
-	
+	public void printLog() {
+		System.out.println("Input : " + ToolBox.intArrayToString(ToolBox.stringToArrayInt(inputText)));
+		System.out.println("Balls : " + play.getBalls() + ", Strikes : " + play.getStrikes() + ", Length : " + play.getGuessLength());
+		System.out.println("answer : " + ToolBox.intArrayToString(play.getAnswer().getAnswer()));
+	}
 	
 
 	private void stageStart() {
 		play.stageStart();
 		ConsolePrinter.printStageStart();
+	}
+	private boolean stageInput() {
+		ConsolePrinter.printStageInput(play.getGuessLength());
+		getInput();
+		boolean result = play.guess(inputText);
+		printLog();
+		return result;
 	}
 
 
@@ -63,7 +91,7 @@ public class PlayConsole {
 		selectMenuOption(Integer.parseInt(inputText));
 	}
 	public void selectMenuOption(int select) {
-		this.mo = MenuOption.valueOfIndex(select);
+		this.mo = ConsoleMenuOption.valueOfIndex(select);
 	}
 	public void deselectMenuOption() {
 		this.mo = null;
