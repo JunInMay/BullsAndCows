@@ -48,7 +48,7 @@ public class Answer{
 			tempArray[index++] = number;
 		}
 
-		System.out.println(tempArrayList);
+//		System.out.println(tempArrayList);
 		tempArrayList.toArray();
 		return tempArray;		
 	}
