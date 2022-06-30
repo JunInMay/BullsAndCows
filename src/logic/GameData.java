@@ -3,6 +3,7 @@ package logic;
 class GameData {
 	private int balls = 0;
 	private int strikes = 0;
+	private int guessTimes = 0;
 	private int guessLength = 4; // 추측할 길이
 	
 	public GameData(){
@@ -29,6 +30,7 @@ class GameData {
 	public void initialize() {
 		this.balls = 0;
 		this.strikes = 0;
+		this.guessTimes = 0;
 	}
 	
 }

@@ -21,9 +21,9 @@ public class Validator {
 	}
 	
 	/*
-	 * 추측할 때 입력값 처리
+	 * 추측할 때 입력값 처리 - 사용안할듯 -> 추후 확정되면 제거
 	 */
-	public void validateStageInput(String inputText, int length) throws IntegerInputException, DeficientInputLengthException {
+	public static void validateStageInput(String inputText, int length) throws IntegerInputException, DeficientInputLengthException {
 		Validator.integerCheck(inputText);
 		Validator.lengthCheck(inputText, length);
 	}

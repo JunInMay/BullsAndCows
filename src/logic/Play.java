@@ -1,5 +1,6 @@
 package logic;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import customException.DeficientInputLengthException;
@@ -7,7 +8,8 @@ import customException.IntegerInputException;
 
 public class Play extends GameData{
 	private Answer answer;
-	private int guessTimes = 0;
+	private int guessTimes;
+	private ArrayList<History> historyList;
 	private boolean havingError = false;
 	private boolean stageStarted = false;
 	private boolean menuSelected = false;
@@ -15,6 +17,8 @@ public class Play extends GameData{
 	private ConsoleMenuOption mo;
 	
 	public Play(){
+		historyList = new ArrayList<History>();
+		guessTimes = 0;
 	}
 	
 	public Answer getAnswer() {
@@ -43,6 +47,9 @@ public class Play extends GameData{
 //		}
 //		validateStageInput();
 		checkAnswer(inputText);
+		guessTimes++;
+		History history = new History(getBalls(), getStrikes(), guessTimes, inputText);
+		historyList.add(history);
 		return isComplete();
 //		if (isComplete()) {
 ////			tp.printGameComplete();
@@ -52,6 +59,10 @@ public class Play extends GameData{
 //		}
 	}
 	
+	public History getLatestHistory() {
+		return historyList.get(historyList.size()-1); 
+	}
+	
 	/*
 	 * 처음에 메뉴를 주고, 메뉴에서 동작 선택
 	 */
@@ -59,9 +70,7 @@ public class Play extends GameData{
 		mo = mo.STAGE;
 	}
 	
-	/*
-	 * 입력값에 따른 로그 출력
-	 */
+	
 	
 	
 	
@@ -79,15 +88,12 @@ public class Play extends GameData{
 	public void checkAnswer(String inputText) {
 		int[] splittedInput = ToolBox.stringToArrayInt(inputText);
 		int[] splittedAnswer = answer.getAnswer();
-		System.out.println(inputText + " 여ㅛ기요 " + Arrays.toString(splittedAnswer));
 		int balls = 0;
 		int strikes = 0;
-		
 		boolean hasBreak = false;
 		for (int i = 0; i < getGuessLength(); i++) {
 			for (int j = 0; j < getGuessLength(); j++) {
 				if (splittedInput[j] == splittedAnswer[i]) {
-					hasBreak = true;
 					if (i == j) {
 						strikes++;
 						break;
@@ -96,13 +102,9 @@ public class Play extends GameData{
 					break;
 				}
 			}
-			if (hasBreak) {
-				break;
-			}
 		}
 		setBalls(balls);
 		setStrikes(strikes);
-		System.out.println(balls + " " + strikes);
 	}
 
 }

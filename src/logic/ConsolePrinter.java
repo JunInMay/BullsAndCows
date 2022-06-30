@@ -15,22 +15,30 @@ public class ConsolePrinter {
 	}
 
 	public static void printGameComplete() {
-		System.out.println("정답을 맞췄습니다. \n게임이 종료됐습니다.");
+		System.out.println("*********************************\n"
+						 + "                                         \n"
+						 + "              정답입니다! 축하합니다!         \n"
+						 + "                메뉴로 돌아갑니다.           \n"
+						 + "                                         \n"
+						 + "*********************************\n");
 	}
 	
 	public static void printRepeatAgain() {
 		System.out.println("다시 입력해주세요.");
 	}
 	
-	public static void printIntegerInputError() {
-		System.out.println(String.format("0~9까지의 정수를 입력해주세요."));
+	public static void printIntegerInputException() {
+		System.out.println(String.format("입력 오류 : 0~9까지의 정수를 입력해주세요."));
 	}
 	
-	public static void printDeficientGuessNumberLength(int guessLength) {
-		System.out.println(String.format("정수를 %d개 입력해주세요.", guessLength));
+	public static void printDeficientInputLengthException(int guessLength) {
+		System.out.println(String.format("입력 오류 : 정수를 %d개 입력해주세요.", guessLength));
 	}
 	public static void printStageInput(int guessLength) {
 		System.out.println(String.format("0~9까지의 정수를 %d개 입력해주세요.", guessLength));
+	}
+	public static void printGuessResult(int order, String inputText, int balls, int strikes) {
+		System.out.println(String.format("%d번째 추측, 입력한 숫자 : %s, 볼 : %d, 스트라이크 : %d", order, inputText, balls, strikes));
 	}
 }
 
