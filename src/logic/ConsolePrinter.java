@@ -31,8 +31,16 @@ public class ConsolePrinter {
 		System.out.println(String.format("입력 오류 : 0~9까지의 정수를 입력해주세요."));
 	}
 	
-	public static void printDeficientInputLengthException(int guessLength) {
-		System.out.println(String.format("입력 오류 : 정수를 %d개 입력해주세요.", guessLength));
+	public static void printGuessNumberException(int guessLength) {
+		System.out.println(String.format("입력 오류 : 0~9까지의 정수를 %d개 입력해주세요.", guessLength));
+	}
+	public static void printWrongStageInputAlphabetException() {
+		String candidates = "";
+		for (StageInputAlphabet s : StageInputAlphabet.values()) {
+			candidates += s.name() + ", ";
+		}
+		candidates = candidates.substring(0, candidates.length()-2);
+		System.out.println(String.format("입력 오류 : 0~9까지의 정수 혹은 대소문자 구분없이 알파벳 %s만 입력 가능합니다.", candidates));
 	}
 	public static void printStageInput(int guessLength) {
 		System.out.println(String.format("0~9까지의 정수를 %d개 입력해주세요.", guessLength));

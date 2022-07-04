@@ -7,7 +7,9 @@ import java.security.acl.LastOwnerException;
 import java.util.Arrays;
 
 import customException.DeficientInputLengthException;
+import customException.GuessNumberException;
 import customException.IntegerInputException;
+import customException.WrongStageInputAlphabetException;
 
 public class PlayConsole {
 	private Play play;
@@ -62,10 +64,10 @@ public class PlayConsole {
 						flow = ConsoleFlow.MENU_SELECT;
 						break;
 				}
-			} catch (IntegerInputException e) {
-				ConsolePrinter.printIntegerInputException();
-			} catch (DeficientInputLengthException e) {
-				ConsolePrinter.printDeficientInputLengthException(play.getGuessLength());
+			} catch (GuessNumberException e) {
+				ConsolePrinter.printGuessNumberException(play.getGuessLength());
+			} catch (WrongStageInputAlphabetException e) {
+				ConsolePrinter.printWrongStageInputAlphabetException();
 			} 
 		}
 	}
@@ -84,7 +86,7 @@ public class PlayConsole {
 		play.stageStart();
 		ConsolePrinter.printStageStart();
 	}
-	private boolean stageInput() throws IntegerInputException, DeficientInputLengthException {
+	private boolean stageInput() throws WrongStageInputAlphabetException, GuessNumberException {
 		ConsolePrinter.printStageInput(play.getGuessLength());
 		getInput();
 		Validator.validateStageInput(inputText, play.getGuessLength());
