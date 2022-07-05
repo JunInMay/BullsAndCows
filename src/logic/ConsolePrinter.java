@@ -36,7 +36,7 @@ public class ConsolePrinter {
 	}
 	public static void printWrongStageInputAlphabetException() {
 		String candidates = "";
-		for (StageInputAlphabet s : StageInputAlphabet.values()) {
+		for (StageInputAlphabetOption s : StageInputAlphabetOption.values()) {
 			candidates += s.name() + ", ";
 		}
 		candidates = candidates.substring(0, candidates.length()-2);

@@ -1,12 +1,12 @@
 package logic;
 
-public enum StageInputAlphabet {
+public enum StageInputAlphabetOption {
 	H("h"), A("a");
 	
 	private String lowerValue;
 	private String upperValue;
 	
-	private StageInputAlphabet(String value) {
+	private StageInputAlphabetOption(String value) {
 		this.lowerValue = value;
 		this.upperValue = value.toUpperCase();
 	}
@@ -25,8 +25,6 @@ public enum StageInputAlphabet {
 		} else {
 			return false;
 		}
-		
-		
 	}
 	
 }
