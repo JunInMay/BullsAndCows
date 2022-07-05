@@ -1,10 +1,6 @@
 package logic;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-
-import customException.DeficientInputLengthException;
-import customException.IntegerInputException;
 
 public class Play extends GameData{
 	private Answer answer;
@@ -21,8 +17,8 @@ public class Play extends GameData{
 		guessTimes = 0;
 	}
 	
-	public Answer getAnswer() {
-		return answer;
+	public String getAnswer() {
+		return ToolBox.intArrayToString(answer.getAnswer());
 	}
 	
 	public void setInputText(String inputText) {
@@ -61,6 +57,9 @@ public class Play extends GameData{
 	
 	public History getLatestHistory() {
 		return historyList.get(historyList.size()-1); 
+	}
+	public ArrayList<History> getHistoryList(){
+		return historyList;
 	}
 	
 	/*
