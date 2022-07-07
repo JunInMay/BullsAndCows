@@ -29,9 +29,7 @@ public class ConsoleValidator extends Validator{
 			try {
 				integerCheck(inputText);
 				lengthCheck(inputText, length);
-			} catch (IntegerInputException e) {
-				throw new GuessNumberException(e);
-			} catch (DeficientInputLengthException e) {
+			} catch (IntegerInputException | DeficientInputLengthException e) {
 				throw new GuessNumberException(e);
 			}
 		} catch (GuessNumberException e) {

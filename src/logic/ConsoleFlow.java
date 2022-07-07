@@ -7,5 +7,5 @@ public enum ConsoleFlow {
 	STAGE_INPUT,
 	STAGE_COMPLETE,
 	GUESS,
-	GAME_END;
+	GAME_END, SET_GAME_LENGTH;
 }
