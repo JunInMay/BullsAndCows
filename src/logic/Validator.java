@@ -2,6 +2,7 @@ package logic;
 
 import customException.DeficientInputLengthException;
 import customException.GuessNumberException;
+import customException.InappropriateStageLengthInputException;
 import customException.IntegerInputException;
 import customException.WrongStageInputAlphabetException;
 
@@ -24,7 +25,12 @@ public class Validator {
 		}
 	}
 
-	
-
+	public static void setLengthCheck(int length) throws InappropriateStageLengthInputException {
+		int validationLength = Integer.parseInt(ConstantSettings.MAX_STAGE_LENGTH.getValue());
+		
+		if (length <= 1 && validationLength < length) {
+			throw new InappropriateStageLengthInputException();
+		}
+	}
 	
 }

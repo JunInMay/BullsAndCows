@@ -52,6 +52,10 @@ public class PlayConsole {
 					}
 					deselectMenuOption();
 					break;
+				case SET_GAME_LENGTH:
+					setGameLength();
+					flow = ConsoleFlow.MENU_SELECT;
+					break;
 				case STAGE_START:
 					stageStart();
 					flow = ConsoleFlow.STAGE_INPUT;
@@ -80,11 +84,25 @@ public class PlayConsole {
 					break;
 				}
 			} catch (GuessNumberException e) {
-				ConsolePrinter.printGuessNumberException(play.getGuessLength());
+				Class mainExceptionClass = e.getMainException().getClass();
+				if (mainExceptionClass.equals(IntegerInputException.class)) {
+					ConsolePrinter.printIntegerInputException();
+				} else if (mainExceptionClass.equals(DeficientInputLengthException.class)) {
+					ConsolePrinter.printDeficientInputLengthException(play.getGuessLength());
+				} else if (mainExceptionClass.equals(WrongStageInputAlphabetException.class)) {
+					ConsolePrinter.printWrongStageInputAlphabetException();
+				}
 			} catch (WrongStageInputAlphabetException e) {
 				ConsolePrinter.printWrongStageInputAlphabetException();
 			}
 		}
+	}
+
+	private void setGameLength() {
+		ConsolePrinter.printSetGameLength();
+		getInput();
+		ConsoleValidator.validateSetLengthInput(inputText);
+		this.play.setGuessLength(Integer.parseInt(inputText));
 	}
 
 	/*

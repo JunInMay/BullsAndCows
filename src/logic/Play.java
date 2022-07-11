@@ -24,6 +24,13 @@ public class Play extends GameData{
 	public void setInputText(String inputText) {
 	}
 	
+	public boolean setGameLength(int length) {
+		boolean result = false;
+		setGuessLength(length);
+		result = true;
+		return result;
+	}
+	
 	public void stageStart() {
 //		tp.printStageStart();
 		answer = new Answer(getGuessLength());

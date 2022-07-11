@@ -13,6 +13,6 @@ public class GuessNumberException extends Exception{
 	}
 	
 	public Exception getMainException() {
-		return this.e;
+		return e;
 	}
 }

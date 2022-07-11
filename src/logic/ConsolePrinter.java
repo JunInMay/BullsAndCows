@@ -66,7 +66,10 @@ public class ConsolePrinter {
 	}
 	
 	public static void printIntegerInputException() {
-		System.out.println(String.format("입력 오류 : 0~9까지의 정수를 입력해주세요."));
+		System.out.println(String.format("입력 오류 : 0~9까지의 숫자를 입력해주세요."));
+	}
+	public static void printDeficientInputLengthException(int length) {
+		System.out.println(String.format("입력 오류 : %d글자로 입력해주세요.", length));
 	}
 	
 	public static void printGuessNumberException(int guessLength) {
@@ -91,6 +94,9 @@ public class ConsolePrinter {
 	}
 	public static void printHistoryEnd() {
 		System.out.println("***************************히스토리 종료****************************\n");
+	}
+	public static void printSetGameLength() {
+		System.out.println("게임 길이를 선택해주세요. (1~10자 사이)");
 	}
 }
 

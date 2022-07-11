@@ -41,4 +41,7 @@ public class ConsoleValidator extends Validator{
 			}
 		}
 	}
+	
+	public static void validateSetLengthInput(String inputText) {
+	}
 }
