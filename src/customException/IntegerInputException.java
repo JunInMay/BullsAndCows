@@ -1,6 +1,6 @@
 package customException;
 
-public class IntegerInputException extends Exception{
+public class IntegerInputException extends Exception {
 	public IntegerInputException() {
 	}
 	public IntegerInputException(String message) {

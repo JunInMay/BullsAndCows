@@ -18,11 +18,12 @@ public class PlayConsole {
 	private BufferedReader br;
 	private String inputText;
 	private ConsoleMenuOption mo;
-	private ConsoleFlow flow = ConsoleFlow.INITIAL_START;
+	private ConsoleFlow flow;
 
 	public PlayConsole() {
-		this.play = new Play();
-		this.br = new BufferedReader(new InputStreamReader(System.in));
+		play = new Play();
+		br = new BufferedReader(new InputStreamReader(System.in));
+		flow = ConsoleFlow.INITIAL_START;
 	}
 
 	public void run() {
@@ -43,10 +44,17 @@ public class PlayConsole {
 					case EXIT:
 						flow = ConsoleFlow.GAME_END;
 						break;
+					case SET_GAME_LENGTH:
+						flow = ConsoleFlow.SET_GAME_LENGTH;
+						break;
 					default:
 						break;
 					}
 					deselectMenuOption();
+					break;
+				case SET_GAME_LENGTH:
+					setGameLength();
+					flow = ConsoleFlow.MENU_SELECT;
 					break;
 				case STAGE_START:
 					stageStart();
@@ -76,11 +84,25 @@ public class PlayConsole {
 					break;
 				}
 			} catch (GuessNumberException e) {
-				ConsolePrinter.printGuessNumberException(play.getGuessLength());
+				Class mainExceptionClass = e.getMainException().getClass();
+				if (mainExceptionClass.equals(IntegerInputException.class)) {
+					ConsolePrinter.printIntegerInputException();
+				} else if (mainExceptionClass.equals(DeficientInputLengthException.class)) {
+					ConsolePrinter.printDeficientInputLengthException(play.getGuessLength());
+				} else if (mainExceptionClass.equals(WrongStageInputAlphabetException.class)) {
+					ConsolePrinter.printWrongStageInputAlphabetException();
+				}
 			} catch (WrongStageInputAlphabetException e) {
 				ConsolePrinter.printWrongStageInputAlphabetException();
 			}
 		}
+	}
+
+	private void setGameLength() {
+		ConsolePrinter.printSetGameLength();
+		getInput();
+		ConsoleValidator.validateSetLengthInput(inputText);
+		this.play.setGuessLength(Integer.parseInt(inputText));
 	}
 
 	/*
@@ -107,13 +129,18 @@ public class PlayConsole {
 	private void showHistory() {
 		ArrayList<History> historyList = play.getHistoryList();
 		int balls, strikes, order;
-		String it;
-		for (History history : historyList) {
-			balls = history.getBalls();
-			strikes = history.getStrikes();
-			order = history.getOrder();
-			it = history.getInputText();
-			System.out.println(String.format("%d번째 추측 : %s Balls : %d, Strikes : %d", order, it, balls, strikes));
+		String guessedNumber;
+		
+		if (historyList.size() > 0) {
+			ConsolePrinter.printHistoryStart();
+			for (History history : historyList) {
+				balls = history.getBalls();
+				strikes = history.getStrikes();
+				order = history.getOrder();
+				guessedNumber = history.getInputText();
+				ConsolePrinter.printGuessResult(order, guessedNumber, balls, strikes);
+			}
+			ConsolePrinter.printHistoryEnd();
 		}
 	}
 	private void showAnswer() {
@@ -124,9 +151,11 @@ public class PlayConsole {
 		boolean result = false;
 		try {
 			result = ConsoleValidator.stageInputAlphabetCheck(inputText);
-		} finally {
-			return result;
+		} catch (WrongStageInputAlphabetException e){
 		}
+			finally {
+		}
+			return result;
 	}
 
 	private boolean stageGuess() {

@@ -1,5 +1,8 @@
 package logic;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 public class ConsolePrinter {
 	public static void printWelcome() {
 		System.out.println("┌────────────────────┐\n"
@@ -8,7 +11,42 @@ public class ConsolePrinter {
 						 + "└────────────────────┘\n");
 	}
 	public static void printMenu() {
-		System.out.println("게임이 시작됐습니다. 동작을 선택하세요.\n1. 게임 시작 2. 게임 종료");
+		ConsoleMenuOption[] moList = ConsoleMenuOption.values();
+		Arrays.sort(moList, new Comparator<ConsoleMenuOption>() {
+			public int compare(ConsoleMenuOption a, ConsoleMenuOption b) {
+				return a.getMenuIndex() - b.getMenuIndex();
+			}
+		});
+		int optionLength = ConsoleMenuOption.values().length;
+			
+		String[] menuLines = new String[Math.round(moList.length/2.0f)];
+		String line = "";
+		for (int i=0; i<moList.length; i++) {
+			if (i%2 == 0) {
+				line = "*   ";
+			} else {
+				line += "                    ";
+			}
+			line += moList[i].getMenuIndex() + ". " + moList[i].getValue();
+			
+			if (i%2 != 0) {
+				menuLines[i/2] = line + "\n";
+				line = "";
+			}
+		}
+		
+		if (!line.equals("")) {
+			menuLines[menuLines.length-1] = line + "\n";
+		}
+		
+		String menuText = "";
+		menuText += "<<<<<<<<<< 메뉴를 선택해주세요. >>>>>>>>>>\n";
+		for (String l : menuLines) {
+			menuText += l;
+		}
+		menuText += "*************************************";
+		
+		System.out.println(menuText);
 	}
 	public static void printStageStart() {
 		System.out.println("숫자야구 게임이 시작됐습니다. 답을 맞춰보세요.");
@@ -28,7 +66,10 @@ public class ConsolePrinter {
 	}
 	
 	public static void printIntegerInputException() {
-		System.out.println(String.format("입력 오류 : 0~9까지의 정수를 입력해주세요."));
+		System.out.println(String.format("입력 오류 : 0~9까지의 숫자를 입력해주세요."));
+	}
+	public static void printDeficientInputLengthException(int length) {
+		System.out.println(String.format("입력 오류 : %d글자로 입력해주세요.", length));
 	}
 	
 	public static void printGuessNumberException(int guessLength) {
@@ -47,6 +88,15 @@ public class ConsolePrinter {
 	}
 	public static void printGuessResult(int order, String inputText, int balls, int strikes) {
 		System.out.println(String.format("%d번째 추측, 입력한 숫자 : %s, 볼 : %d, 스트라이크 : %d", order, inputText, balls, strikes));
+	}
+	public static void printHistoryStart() {
+		System.out.println("\n************************히스토리를 출력합니다.************************");
+	}
+	public static void printHistoryEnd() {
+		System.out.println("***************************히스토리 종료****************************\n");
+	}
+	public static void printSetGameLength() {
+		System.out.println("게임 길이를 선택해주세요. (1~10자 사이)");
 	}
 }
 
