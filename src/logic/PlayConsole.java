@@ -85,6 +85,7 @@ public class PlayConsole {
 				}
 			} catch (GuessNumberException e) {
 				Class mainExceptionClass = e.getMainException().getClass();
+				
 				if (mainExceptionClass.equals(IntegerInputException.class)) {
 					ConsolePrinter.printIntegerInputException();
 				} else if (mainExceptionClass.equals(DeficientInputLengthException.class)) {
@@ -92,9 +93,7 @@ public class PlayConsole {
 				} else if (mainExceptionClass.equals(WrongStageInputAlphabetException.class)) {
 					ConsolePrinter.printWrongStageInputAlphabetException();
 				}
-			} catch (WrongStageInputAlphabetException e) {
-				ConsolePrinter.printWrongStageInputAlphabetException();
-			}
+			} 
 		}
 	}
 
@@ -121,7 +120,7 @@ public class PlayConsole {
 		ConsolePrinter.printStageStart();
 	}
 
-	private void stageInput() throws WrongStageInputAlphabetException, GuessNumberException {
+	private void stageInput() throws GuessNumberException {
 		ConsolePrinter.printStageInput(play.getGuessLength());
 		getInput();
 		ConsoleValidator.validateStageInput(inputText, play.getGuessLength());

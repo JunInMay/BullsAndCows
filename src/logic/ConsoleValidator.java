@@ -24,7 +24,7 @@ public class ConsoleValidator extends Validator{
 	/*
 	 * 추측할 때 입력값 처리 - 사용안할듯 -> 추후 확정되면 제거 -> 사용할듯
 	 */
-	public static void validateStageInput(String inputText, int length) throws WrongStageInputAlphabetException, GuessNumberException {
+	public static void validateStageInput(String inputText, int length) throws GuessNumberException {
 		try {
 			try {
 				integerCheck(inputText);
@@ -34,8 +34,12 @@ public class ConsoleValidator extends Validator{
 			}
 		} catch (GuessNumberException e) {
 			if (inputText.length() == 1) {
-				System.out.println(e.getMainException().getClass().toString());
+				try {
+//				System.out.println(e.getMainException().getClass().toString());
 				stageInputAlphabetCheck(inputText);
+				} catch (WrongStageInputAlphabetException e2) {
+					throw new GuessNumberException(e2);
+				}
 			} else {
 				throw e;
 			}
