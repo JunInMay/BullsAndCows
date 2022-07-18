@@ -1,7 +1,7 @@
 package customException;
 
 public class GuessNumberException extends Exception{
-	Exception e;
+	Exception mainException;
 	
 	public GuessNumberException() {
 	}
@@ -9,10 +9,10 @@ public class GuessNumberException extends Exception{
 		super(message);
 	}
 	public GuessNumberException(Exception e) {
-		this.e = e;
+		this.mainException = e;
 	}
 	
 	public Exception getMainException() {
-		return e;
+		return mainException;
 	}
 }
